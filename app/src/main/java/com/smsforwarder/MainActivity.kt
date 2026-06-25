@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var prefs: PrefsManager
     private lateinit var switchEnabled: Switch
+    private lateinit var switchCallForward: Switch
     private lateinit var rgMethod: RadioGroup
     private lateinit var etWebhook: EditText
     private lateinit var etPushplusToken: EditText
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViews() {
         switchEnabled = findViewById(R.id.switch_enabled)
+        switchCallForward = findViewById(R.id.switch_call_forward)
         rgMethod = findViewById(R.id.rg_method)
         etWebhook = findViewById(R.id.et_webhook_url)
         etPushplusToken = findViewById(R.id.et_pushplus_token)
@@ -49,6 +51,10 @@ class MainActivity : AppCompatActivity() {
             }
             prefs.isEnabled = checked
             tvStatus.text = if (checked) "● 监听中" else "○ 已停止"
+        }
+
+        switchCallForward.setOnCheckedChangeListener { _, checked ->
+            prefs.callForwardEnabled = checked
         }
 
         rgMethod.setOnCheckedChangeListener { _, id ->
@@ -73,6 +79,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadConfig() {
         switchEnabled.isChecked = prefs.isEnabled
+        switchCallForward.isChecked = prefs.callForwardEnabled
         etWebhook.setText(prefs.webhookUrl)
         etPushplusToken.setText(prefs.pushplusToken)
         etFilterList.setText(prefs.filterList.joinToString("\n"))

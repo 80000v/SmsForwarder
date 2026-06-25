@@ -17,9 +17,13 @@ class ForwardService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        val type = intent?.getStringExtra("type") ?: "sms"
+        val title = if (type == "call") "来电转发运行中" else "短信转发运行中"
+        val text = if (type == "call") "正在监听来电…" else "正在监听短信…"
+
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle("短信转发运行中")
-            .setContentText("正在监听短信…")
+            .setContentTitle(title)
+            .setContentText(text)
             .setSmallIcon(android.R.drawable.ic_dialog_email)
             .setContentIntent(
                 PendingIntent.getActivity(
@@ -44,7 +48,7 @@ class ForwardService : Service() {
                 val sender = it.getStringExtra("sender") ?: return@let
                 val body = it.getStringExtra("body") ?: return@let
                 val timestamp = it.getLongExtra("timestamp", 0L)
-                val entry = ForwardEntry(sender, body, timestamp)
+                val entry = ForwardEntry(sender, body, timestamp, type)
 
                 val prefs = PrefsManager(this)
                 prefs.saveHistory(entry.copy(body = body.take(100)))

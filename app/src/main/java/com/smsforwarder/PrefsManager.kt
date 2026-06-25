@@ -29,10 +29,14 @@ class PrefsManager(context: Context) {
         get() = prefs.getStringSet("filter_list", emptySet()) ?: emptySet()
         set(v) = prefs.edit().putStringSet("filter_list", v).apply()
 
+    var callForwardEnabled: Boolean
+        get() = prefs.getBoolean("call_forward_enabled", true)
+        set(v) = prefs.edit().putBoolean("call_forward_enabled", v).apply()
+
     fun saveHistory(entry: ForwardEntry) {
         val history = prefs.getString("history", null)
         val list = if (history != null) history.split("|||").toMutableList() else mutableListOf()
-        list.add(0, "${entry.timestamp}|${entry.sender}|${entry.body}")
+        list.add(0, "${entry.timestamp}|${entry.sender}|${entry.body}|${entry.type}")
         if (list.size > 100) list.removeAt(list.lastIndex)
         prefs.edit().putString("history", list.joinToString("|||")).apply()
     }
@@ -40,12 +44,13 @@ class PrefsManager(context: Context) {
     fun getHistory(): List<ForwardEntry> {
         val history = prefs.getString("history", null) ?: return emptyList()
         return history.split("|||").mapNotNull { line ->
-            val parts = line.split("|", limit = 3)
-            if (parts.size == 3) {
+            val parts = line.split("|", limit = 4)
+            if (parts.size >= 3) {
                 ForwardEntry(
                     timestamp = parts[0].toLongOrNull() ?: 0L,
                     sender = parts[1],
-                    body = parts[2]
+                    body = parts[2],
+                    type = if (parts.size >= 4) parts[3] else "sms"
                 )
             } else null
         }
@@ -55,5 +60,6 @@ class PrefsManager(context: Context) {
 data class ForwardEntry(
     val sender: String = "",
     val body: String = "",
-    val timestamp: Long = 0L
+    val timestamp: Long = 0L,
+    val type: String = "sms"
 )
