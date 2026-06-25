@@ -44,8 +44,7 @@ class ForwardService : Service() {
             Forwarder.send(
                 method = prefs.method,
                 webhookUrl = prefs.webhookUrl,
-                ntfyTopic = prefs.ntfyTopic,
-                ntfyServer = prefs.ntfyServer,
+                pushplusToken = prefs.pushplusToken,
                 entry = entry
             ) { success, message ->
                 prefs.saveHistory(entry.copy(body = body.take(100)))

@@ -16,8 +16,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var switchEnabled: Switch
     private lateinit var rgMethod: RadioGroup
     private lateinit var etWebhook: EditText
-    private lateinit var etNtfyTopic: EditText
-    private lateinit var etNtfyServer: EditText
+    private lateinit var etPushplusToken: EditText
     private lateinit var spFilterMode: Spinner
     private lateinit var etFilterList: EditText
     private lateinit var tvStatus: TextView
@@ -36,8 +35,7 @@ class MainActivity : AppCompatActivity() {
         switchEnabled = findViewById(R.id.switch_enabled)
         rgMethod = findViewById(R.id.rg_method)
         etWebhook = findViewById(R.id.et_webhook_url)
-        etNtfyTopic = findViewById(R.id.et_ntfy_topic)
-        etNtfyServer = findViewById(R.id.et_ntfy_server)
+        etPushplusToken = findViewById(R.id.et_pushplus_token)
         spFilterMode = findViewById(R.id.sp_filter_mode)
         etFilterList = findViewById(R.id.et_filter_list)
         tvStatus = findViewById(R.id.tv_status)
@@ -55,10 +53,10 @@ class MainActivity : AppCompatActivity() {
 
         rgMethod.setOnCheckedChangeListener { _, id ->
             prefs.method = when (id) {
+                R.id.rb_pushplus -> "pushplus"
                 R.id.rb_webhook -> "webhook"
-                R.id.rb_ntfy -> "ntfy"
                 R.id.rb_both -> "both"
-                else -> "webhook"
+                else -> "pushplus"
             }
             updateFormVisibility()
         }
@@ -76,14 +74,13 @@ class MainActivity : AppCompatActivity() {
     private fun loadConfig() {
         switchEnabled.isChecked = prefs.isEnabled
         etWebhook.setText(prefs.webhookUrl)
-        etNtfyTopic.setText(prefs.ntfyTopic)
-        etNtfyServer.setText(prefs.ntfyServer)
+        etPushplusToken.setText(prefs.pushplusToken)
         etFilterList.setText(prefs.filterList.joinToString("\n"))
         tvStatus.text = if (prefs.isEnabled) "● 监听中" else "○ 已停止"
 
         when (prefs.method) {
+            "pushplus" -> rgMethod.check(R.id.rb_pushplus)
             "webhook" -> rgMethod.check(R.id.rb_webhook)
-            "ntfy" -> rgMethod.check(R.id.rb_ntfy)
             "both" -> rgMethod.check(R.id.rb_both)
         }
         updateFormVisibility()
@@ -97,8 +94,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveConfig() {
         prefs.webhookUrl = etWebhook.text.toString().trim()
-        prefs.ntfyTopic = etNtfyTopic.text.toString().trim()
-        prefs.ntfyServer = etNtfyServer.text.toString().trim()
+        prefs.pushplusToken = etPushplusToken.text.toString().trim()
         prefs.filterList = etFilterList.text.toString()
             .split("\n")
             .map { it.trim() }
@@ -110,8 +106,7 @@ class MainActivity : AppCompatActivity() {
     private fun updateFormVisibility() {
         val method = prefs.method
         etWebhook.isEnabled = method == "webhook" || method == "both"
-        etNtfyTopic.isEnabled = method == "ntfy" || method == "both"
-        etNtfyServer.isEnabled = method == "ntfy" || method == "both"
+        etPushplusToken.isEnabled = method == "pushplus" || method == "both"
     }
 
     private fun refreshHistory() {

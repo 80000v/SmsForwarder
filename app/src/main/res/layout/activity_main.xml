@@ -49,8 +49,8 @@
             android:orientation="horizontal"
             android:layout_marginBottom="12dp">
 
+            <RadioButton android:id="@+id/rb_pushplus" android:text="PushPlus" android:layout_weight="1" />
             <RadioButton android:id="@+id/rb_webhook" android:text="Webhook" android:layout_weight="1" />
-            <RadioButton android:id="@+id/rb_ntfy" android:text="ntfy.sh" android:layout_weight="1" />
             <RadioButton android:id="@+id/rb_both" android:text="两者" android:layout_weight="1" />
         </RadioGroup>
 
@@ -70,27 +70,20 @@
             android:inputType="textUri"
             android:layout_marginBottom="8dp" />
 
-        <!-- ntfy 配置 -->
+        <!-- PushPlus 配置 -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ntfy Topic"
+            android:text="PushPlus Token"
             android:textSize="12sp"
             android:layout_marginBottom="4dp" />
 
         <EditText
-            android:id="@+id/et_ntfy_topic"
+            android:id="@+id/et_pushplus_token"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="你的唯一Topic名"
-            android:layout_marginBottom="4dp" />
-
-        <EditText
-            android:id="@+id/et_ntfy_server"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="https://ntfy.sh"
-            android:inputType="textUri"
+            android:hint="在 pushplus.plus 获取"
+            android:inputType="text"
             android:layout_marginBottom="16dp" />
 
         <!-- 过滤器 -->

@@ -10,20 +10,16 @@ class PrefsManager(context: Context) {
         set(v) = prefs.edit().putBoolean("enabled", v).apply()
 
     var method: String
-        get() = prefs.getString("method", "webhook") ?: "webhook"
+        get() = prefs.getString("method", "pushplus") ?: "pushplus"
         set(v) = prefs.edit().putString("method", v).apply()
 
     var webhookUrl: String
         get() = prefs.getString("webhook_url", "") ?: ""
         set(v) = prefs.edit().putString("webhook_url", v).apply()
 
-    var ntfyTopic: String
-        get() = prefs.getString("ntfy_topic", "") ?: ""
-        set(v) = prefs.edit().putString("ntfy_topic", v).apply()
-
-    var ntfyServer: String
-        get() = prefs.getString("ntfy_server", "https://ntfy.sh") ?: "https://ntfy.sh"
-        set(v) = prefs.edit().putString("ntfy_server", v).apply()
+    var pushplusToken: String
+        get() = prefs.getString("pushplus_token", "4901f70379c4461a9b42bdd446f7dd58") ?: "4901f70379c4461a9b42bdd446f7dd58"
+        set(v) = prefs.edit().putString("pushplus_token", v).apply()
 
     var filterMode: String
         get() = prefs.getString("filter_mode", "none") ?: "none"
