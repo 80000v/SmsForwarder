@@ -73,7 +73,6 @@ object Forwarder {
             put("token", token)
             put("title", "短信来自 ${entry.sender}")
             put("content", entry.body)
-            put("template", "txt")
         }
 
         val body = RequestBody.create("application/json".toMediaType(), json.toString())

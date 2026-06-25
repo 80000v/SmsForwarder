@@ -36,10 +36,14 @@ class SmsReceiver : BroadcastReceiver() {
                 putExtra("body", entry.body)
                 putExtra("timestamp", entry.timestamp)
             }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                context.startForegroundService(forwardIntent)
-            } else {
-                context.startService(forwardIntent)
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    context.startForegroundService(forwardIntent)
+                } else {
+                    context.startService(forwardIntent)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }

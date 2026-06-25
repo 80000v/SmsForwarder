@@ -31,23 +31,32 @@ class ForwardService : Service() {
             .setOngoing(true)
             .build()
 
-        startForeground(1, notification)
+        try {
+            startForeground(1, notification)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            stopSelf()
+            return START_NOT_STICKY
+        }
 
         intent?.let {
-            val sender = it.getStringExtra("sender") ?: return@let
-            val body = it.getStringExtra("body") ?: return@let
-            val timestamp = it.getLongExtra("timestamp", 0L)
-            val entry = ForwardEntry(sender, body, timestamp)
+            try {
+                val sender = it.getStringExtra("sender") ?: return@let
+                val body = it.getStringExtra("body") ?: return@let
+                val timestamp = it.getLongExtra("timestamp", 0L)
+                val entry = ForwardEntry(sender, body, timestamp)
 
-            val prefs = PrefsManager(this)
-
-            Forwarder.send(
-                method = prefs.method,
-                webhookUrl = prefs.webhookUrl,
-                pushplusToken = prefs.pushplusToken,
-                entry = entry
-            ) { success, message ->
+                val prefs = PrefsManager(this)
                 prefs.saveHistory(entry.copy(body = body.take(100)))
+
+                Forwarder.send(
+                    method = prefs.method,
+                    webhookUrl = prefs.webhookUrl,
+                    pushplusToken = prefs.pushplusToken,
+                    entry = entry
+                ) { _, _ -> }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
 
