@@ -1,4 +1,6 @@
 # Gitee Go CI - SmsForwarder Android APK 自动构建
+# 放到项目根目录: .gitee/go.yml
+# 推送到 Gitee 后自动触发
 
 name: android-build
 display_name: Android APK 构建
