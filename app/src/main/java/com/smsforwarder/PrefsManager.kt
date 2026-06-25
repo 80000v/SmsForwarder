@@ -18,7 +18,7 @@ class PrefsManager(context: Context) {
         set(v) = prefs.edit().putString("webhook_url", v).apply()
 
     var pushplusToken: String
-        get() = prefs.getString("pushplus_token", "4901f70379c4461a9b42bdd446f7dd58") ?: "4901f70379c4461a9b42bdd446f7dd58"
+        get() = prefs.getString("pushplus_token", "") ?: ""
         set(v) = prefs.edit().putString("pushplus_token", v).apply()
 
     var filterMode: String
