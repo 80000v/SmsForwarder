@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- 总开关 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="短信转发器"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="○ 已停止"
+            android:textSize="14sp"
+            android:layout_marginBottom="12dp" />
+
+        <Switch
+            android:id="@+id/switch_enabled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="启用转发"
+            android:layout_marginBottom="24dp" />
+
+        <!-- 转发方式 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="转发方式"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <RadioGroup
+            android:id="@+id/rg_method"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="12dp">
+
+            <RadioButton android:id="@+id/rb_webhook" android:text="Webhook" android:layout_weight="1" />
+            <RadioButton android:id="@+id/rb_ntfy" android:text="ntfy.sh" android:layout_weight="1" />
+            <RadioButton android:id="@+id/rb_both" android:text="两者" android:layout_weight="1" />
+        </RadioGroup>
+
+        <!-- Webhook 配置 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Webhook URL"
+            android:textSize="12sp"
+            android:layout_marginBottom="4dp" />
+
+        <EditText
+            android:id="@+id/et_webhook_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="https://your-server.com/sms"
+            android:inputType="textUri"
+            android:layout_marginBottom="8dp" />
+
+        <!-- ntfy 配置 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ntfy Topic"
+            android:textSize="12sp"
+            android:layout_marginBottom="4dp" />
+
+        <EditText
+            android:id="@+id/et_ntfy_topic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="你的唯一Topic名"
+            android:layout_marginBottom="4dp" />
+
+        <EditText
+            android:id="@+id/et_ntfy_server"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="https://ntfy.sh"
+            android:inputType="textUri"
+            android:layout_marginBottom="16dp" />
+
+        <!-- 过滤器 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="号码过滤"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <Spinner
+            android:id="@+id/sp_filter_mode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/filter_modes"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/et_filter_list"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:hint="每行一个号码，例如:\n+8613800138000\n10690000"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="保存配置"
+            android:layout_marginBottom="24dp" />
+
+        <!-- 转发记录 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="转发记录"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tv_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="暂无转发记录"
+            android:textSize="12sp"
+            android:fontFamily="monospace"
+            android:lineSpacingExtra="4dp" />
+
+    </LinearLayout>
+</ScrollView>

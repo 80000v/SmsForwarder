@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">短信转发器</string>
+    <string-array name="filter_modes">
+        <item>不过滤（全部转发）</item>
+        <item>白名单（只转发列表内号码）</item>
+        <item>黑名单（不转发列表内号码）</item>
+    </string-array>
+</resources>

@@ -1,0 +1,41 @@
+# Gitee Go CI - SmsForwarder Android APK 自动构建
+
+name: android-build
+display_name: Android APK 构建
+triggers:
+  push:
+    branches:
+      - master
+      - main
+
+stages:
+  - stage: build
+    display_name: 编译APK
+    jobs:
+      - job: android
+        display_name: Android 构建
+        steps:
+          - step: checkout
+
+          - step: setup-java
+            uses: setup-java@v1
+            with:
+              java_version: "17"
+
+          - step: setup-android-sdk
+            uses: setup-android@v1
+            with:
+              api_level: 34
+              build_tools_version: "34.0.0"
+
+          - step: grant-gradlew
+            run: chmod +x gradlew
+
+          - step: build-apk
+            run: ./gradlew assembleRelease --no-daemon
+
+          - step: collect-artifacts
+            uses: upload-artifact@v1
+            with:
+              name: SmsForwarder
+              path: app/build/outputs/apk/release/*.apk
