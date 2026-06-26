@@ -69,8 +69,15 @@ object Forwarder {
             return
         }
 
-        val title = if (entry.type == "call") "来电通知" else "短信来自 ${entry.sender}"
-        val content = if (entry.type == "call") "号码：${entry.sender}" else entry.body
+        val title = when (entry.type) {
+            "call" -> "来电通知"
+            "missed_call" -> "未接来电"
+            else -> "短信来自 ${entry.sender}"
+        }
+        val content = when (entry.type) {
+            "call", "missed_call" -> "号码：${entry.sender}"
+            else -> entry.body
+        }
 
         val json = JSONObject().apply {
             put("token", token)

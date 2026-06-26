@@ -18,8 +18,15 @@ class ForwardService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val type = intent?.getStringExtra("type") ?: "sms"
-        val title = if (type == "call") "来电转发运行中" else "短信转发运行中"
-        val text = if (type == "call") "正在监听来电…" else "正在监听短信…"
+        val title = when (type) {
+            "call" -> "来电转发运行中"
+            "missed_call" -> "未接来电转发运行中"
+            else -> "短信转发运行中"
+        }
+        val text = when (type) {
+            "call", "missed_call" -> "正在监听来电…"
+            else -> "正在监听短信…"
+        }
 
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(title)

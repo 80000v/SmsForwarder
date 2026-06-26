@@ -17,7 +17,15 @@ class SmsReceiver : BroadcastReceiver() {
 
         val messages = Telephony.Sms.Intents.getMessagesFromIntent(intent)
         for (msg in messages) {
-            val sender = msg.originatingAddress ?: "未知"
+            // 短号码（106/955 等）在部分设备上 originatingAddress 为 null，
+            // 使用 displayOriginatingAddress 作为兜底
+            val rawSender = msg.originatingAddress
+            val displaySender = msg.displayOriginatingAddress
+            val sender = when {
+                !rawSender.isNullOrBlank() -> rawSender
+                !displaySender.isNullOrBlank() -> displaySender
+                else -> "未知"
+            }
             val body = msg.messageBody ?: ""
 
             // 过滤黑名单/白名单
